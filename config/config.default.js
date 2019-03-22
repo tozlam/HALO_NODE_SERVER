@@ -20,10 +20,20 @@ module.exports = appInfo => {
 
   config.session = {
     key: 'EGG_SESS', // key 代表了存储 Session 的 Cookie 键值
-    maxAge: 24 * 3600 * 1000, // 1 天
+    maxAge: 1 * 3600 * 1000, // 1 小时
     httpOnly: true, //只能通过node访问
     encrypt: true, //加密
     //signed: false
+  };
+
+  // 服务配置
+  config.serverConf = {
+    'HALO_BE': 'http://123.207.121.122:8868/api',
+  };
+
+  config.bodyParser = {
+    jsonLimit: '5mb',
+    formLimit: '6mb',
   };
 
   // add your user config here

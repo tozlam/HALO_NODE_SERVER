@@ -8,7 +8,10 @@
   },
   "dependencies": {
     "egg": "^2.15.1",
-    "egg-scripts": "^2.11.0"
+    "egg-scripts": "^2.11.0",
+    "egg-ueditor": "https://github.com/tozlam/egg-ueditor/tarball/master",
+    "lodash": "^4.17.11",
+    "ueditor": "^1.2.3"
   },
   "devDependencies": {
     "autod": "^3.0.1",
