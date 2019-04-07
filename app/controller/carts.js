@@ -18,10 +18,14 @@ class CartsService extends Service {
         let resp = await service.carts.addCart(inputParams);
         if(resp.cookie){
             resp.result.cookie = resp.cookie;
+            ctx.body = {
+                data:resp.result
+            };
+        }else{
+            ctx.body = {
+                data:resp
+            };
         }
-        ctx.body = {
-            data:resp.result
-        };
     }
 
     async updateCart(){
@@ -30,10 +34,14 @@ class CartsService extends Service {
         const resp = await service.carts.updateCart(inputParams.params,inputParams.proId);
         if(resp.cookie){
             resp.result.cookie = resp.cookie;
+            ctx.body = {
+                data:resp.result
+            };
+        }else{
+            ctx.body = {
+                data:resp
+            };
         }
-        ctx.body = {
-            data:resp.result
-        };
     }
 
     async delCart(){
@@ -42,10 +50,15 @@ class CartsService extends Service {
         const resp = await service.carts.delCart(inputParams.proId);
         if(resp.cookie){
             resp.result.cookie = resp.cookie;
+            ctx.body = {
+                data:resp.result
+            };
+        }else{
+            ctx.body = {
+                data:resp
+            };
         }
-        ctx.body = {
-            data:resp.result
-        };
+
     }
 
 }

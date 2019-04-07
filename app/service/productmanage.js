@@ -8,14 +8,20 @@ class ProductmanageService extends Service {
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/productmanage/typeAndName?type=' +
         params.type + '&name=' + params.name + '&pageIndex=' + params.pageIndex + '&pageCount=' + params.pageSize,
-            'GET'
+            'GET',{},
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 
     async getProductPage(pageSize){
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/productmanage/page?pageCount=' + pageSize,
-            'GET'
+            'GET',{},
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 
@@ -40,7 +46,10 @@ class ProductmanageService extends Service {
     async getProduct(pageIndex,pageSize){
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/productmanage/?pageIndex=' + pageIndex + '&pageCount=' + pageSize,
-            'GET'
+            'GET',{},
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 

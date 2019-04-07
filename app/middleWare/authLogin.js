@@ -7,9 +7,25 @@ module.exports = () => {
      */
     return async function (ctx, next) {
         const isLogin = ctx.session.token;
+        const expireTime = ctx.session.expireTime;
+        const nowTime = new Date().getTime();
         if (!isLogin) {
-            ctx.status = 403;
-            ctx.body = 'forbidden!';
+            ctx.status = 200;
+            ctx.body = {
+                data: {
+                    erroeCode: 403,
+                    errorMsg: '请登录'
+                }
+            };
+            return;
+        }else if(nowTime > expireTime){
+            ctx.status = 200;
+            ctx.body = {
+                data: {
+                    erroeCode: 403,
+                    errorMsg: '登录超时，请重新登录'
+                }
+            };
             return;
         }
         await next();

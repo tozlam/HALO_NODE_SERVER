@@ -7,14 +7,20 @@ class OrderManageService extends Service {
     async getOrderPage(page){
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/ordermanage/page?pageCount=' + page,
-            'GET'
+            'GET',{},
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 
     async getOrder(pageSize,pageIndex){
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/ordermanage/orders?pageIndex=' + pageIndex + '&pageCount=' + pageSize,
-            'GET'
+            'GET',{},
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 
@@ -22,14 +28,20 @@ class OrderManageService extends Service {
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/ordermanage/status',
             'PATCH',
-            params
+            params,
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 
     async searchOrder(status,pageIndex,pageSize){
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/ordermanage/' + status + '?pageIndex=' + pageIndex + '&pageCount=' + pageSize,
-            'GET'
+            'GET',{},
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 }

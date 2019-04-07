@@ -1,5 +1,6 @@
 const Controller = require('egg').Controller;
 const _ = require('lodash');
+const constants = require('../constants/index');
 
 class MsOrderController extends Controller {
     async getOrderPage(){
@@ -15,6 +16,13 @@ class MsOrderController extends Controller {
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
         const resp = await service.ordermanage.getOrder(inputParams.pageSize,inputParams.pageIndex);
+        if(resp.data){
+            _.each(resp.data.orders,item => {
+                item.statusName = constants.ORDER_TYPE[item.status];
+                let time = new Date(item.gmtUpdated);
+                item.lastUpdateTime = time.toLocaleDateString() + " " + time.toTimeString().substr(0, 5);
+            });
+        }
         ctx.body = {
             data:resp
         };

@@ -21,6 +21,7 @@ exports.tdRequest = async function(ctx, url, method, params = {}, options = {}, 
     ctx.logger.info('request params: ' + JSON.stringify(requestParams));
 
     const result = await ctx.curl(url, requestParams);
+
     if(result.data && result.data.hasOwnProperty('error')) {
         console.log(result.data)
         throw new Error(result.data.errorMsg || result.data.message);

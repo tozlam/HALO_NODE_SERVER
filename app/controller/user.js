@@ -17,25 +17,32 @@ class UserController extends Controller {
     async loginByPwd(){
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
-
-        const resp = await service.auths.loginByPwd(inputParams);
-        if(resp.errorCode == 0){
+        let resp = await service.auths.loginByPwd(inputParams);
+        if (resp.errorCode == 0) {
             ctx.session.token = resp.data['access_token'];
+            ctx.session.expireTime = new Date().getTime() + 59 * 60 * 1000;
+            resp = await service.users.userData();
         }
+
         ctx.body = {
             data:resp
         };
     }
 
-    async loginByCode(){
+    async loginByCode() {
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
+        let resp = await service.auths.loginByCode(inputParams);
+        if (resp.errorCode == 0) {
+            ctx.session.token = resp.data['access_token'];
+            ctx.session.expireTime = new Date().getTime() + 59 * 60 * 1000;
+            resp = await service.users.userData();
+        }
 
-        const resp = await service.auths.loginByCode(inputParams);
-        ctx.body = {
-            data:resp
-        };
-    }
+    ctx.body = {
+        data:resp
+    };
+}
 
     async loginRequestSmsCode(){
         const {ctx, service} = this;
@@ -176,46 +183,16 @@ class UserController extends Controller {
         const {ctx, service,app} = this;
         const inputParams = ctx.request.body;
         let token = ctx.session.token;
-        let formData ;
         var imgData = inputParams.img;
         var base64Data = imgData.replace(/^data:image\/\w+;base64,/, "");
-        var dataBuffer = new Buffer(base64Data, 'base64');
-        const path ="./app/public/upload/" + Date.now() + ".png";
 
-        const saveImg = function () {
-            return new Promise((resolve, reject) => {
-                fs.writeFile(path, dataBuffer, function(err) {
-                    if(err){
-                        reject();
-                    }else{
-                        formData = {
-                            file: fs.createReadStream(path),
-                        };
-
-                        resolve();
-                    }
-                });
-            })
+        const dataParam = {
+            image: base64Data
         }
-
-        const save = await saveImg();
-
-        const filePromise = function () {
-            return new Promise((resolve, reject) => {
-                let result = ctx.curl(app.config.serverConf.HALO_BE + '/halo/users/avatar', {
-                    method: 'POST',
-                    headers:{'access_token': token,'Content-Type': 'multipart/form-data'},
-                    stream: fs.createReadStream(path),
-                    dataType: 'json',
-                });
-                resolve(result);
-            })
-        }
-
-        const imageUrl = await filePromise();
+        const resp = await service.common.imageSave(dataParam);
 
         ctx.body = {
-            data:imageUrl
+            data:resp
         };
     }
 

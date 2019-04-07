@@ -24,6 +24,14 @@ class MsUserController extends Controller {
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
         const resp = await service.usermanage.getUser(inputParams.pageIndex,inputParams.pageSize);
+        if(resp.data){
+            _.each(resp.data.users,item => {
+                let create = new Date(item.gmtCreate);
+                item.createTime = create.toLocaleDateString() + " " + create.toTimeString().substr(0, 8);
+                let update = new Date(item.gmtUpdate);
+                item.updateTime = update.toLocaleDateString() + " " + update.toTimeString().substr(0, 8);
+            });
+        }
         ctx.body = {
             data:resp
         };

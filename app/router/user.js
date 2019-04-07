@@ -15,6 +15,7 @@ module.exports = app => {
         user
     } = controller;
 
+    router.post('/api/user/userData',authLogin,user.userData);
     router.post('/api/user/loginVerifyPhone', user.loginVerifyPhone);
     router.post('/api/user/loginByPwd', user.loginByPwd);
     router.post('/api/user/loginByCode', user.loginByCode);
@@ -23,7 +24,6 @@ module.exports = app => {
     router.post('/api/user/regRequestSmsCode', user.regRequestSmsCode);
     router.post('/api/user/regVerifyCode', user.regVerifyCode);
     router.post('/api/user/registerByPhone', user.registerByPhone);
-    router.post('/api/user/userData',authLogin,user.userData);
     router.post('/api/user/updatePwd',user.updatePwd);
     router.post('/api/user/verifyPwd',user.verifyPwd);
     router.post('/api/user/updateEmail',user.updateEmail);

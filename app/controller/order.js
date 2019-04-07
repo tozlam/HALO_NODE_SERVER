@@ -6,7 +6,23 @@ const _ = require('lodash');
 class OrderService extends Service {
     async myOrder(){
         const {ctx, service} = this;
-        const resp = await service.orders.myOrder();
+        const inputParams = ctx.request.body;
+        let resp = await service.orders.myOrder();
+        if(inputParams.status !== 'all'){
+            let temp = [];
+            _.each(resp.data.orderDetailList,item => {
+                if(inputParams.status === 'other'){
+                    if(item.status == '1' || item.status == '4' || item.status == '5'){
+                        temp.push(item);
+                    }
+                }else{
+                    if(item.status == inputParams.status){
+                        temp.push(item);
+                    }
+                }
+            });
+            resp.data.orderDetailList = temp;
+        }
         ctx.body = {
             data:resp
         };
@@ -33,7 +49,7 @@ class OrderService extends Service {
     async settlement(){
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
-        const resp = await service.orders.settlement(inputParams);
+        const resp = await service.orders.settlement(inputParams.product);
         ctx.body = {
             data:resp
         };

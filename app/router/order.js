@@ -10,13 +10,12 @@ module.exports = app => {
         middleware
     } = app;
 
-    const {
-        order
-    } = controller;
+    const authLogin = middleware.authLogin();
+    const {order} = controller;
 
-    router.post('/api/order/myOrder', order.myOrder);
-    router.post('/api/order/orderDetail',order.orderDetail);
-    router.post('/api/order/newOrder',order.newOrder);
-    router.post('/api/order/settlement',order.settlement);
-    router.post('/api/order/buyNow',order.buyNow);
+    router.post('/api/order/myOrder',authLogin, order.myOrder);
+    router.post('/api/order/orderDetail',authLogin,order.orderDetail);
+    router.post('/api/order/newOrder',authLogin,order.newOrder);
+    router.post('/api/order/settlement',authLogin,order.settlement);
+    router.post('/api/order/buyNow',authLogin,order.buyNow);
 };

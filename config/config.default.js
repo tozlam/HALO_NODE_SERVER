@@ -28,7 +28,8 @@ module.exports = appInfo => {
 
   // 服务配置
   config.serverConf = {
-    'HALO_BE': 'http://123.207.121.122:8868/api',
+    'HALO_BE': 'http://123.207.121.122:8899/api',
+    'HALO_API': 'http://129.204.136.99:8868/api'
   };
 
   config.bodyParser = {

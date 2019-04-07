@@ -7,7 +7,10 @@ class UsermanageService extends Service {
     async getUserPage(pageSize){
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/usermanage/page?pageCount=' + pageSize,
-            'GET'
+            'GET',{},
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 
@@ -21,14 +24,20 @@ class UsermanageService extends Service {
     async getUser(pageIndex,pageSize){
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/usermanage/users?pageIndex=' + pageIndex + '&pageCount=' + pageSize,
-            'GET'
+            'GET',{},
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 
     async searchUser(params){
         const {ctx, app} = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/usermanage/' + params,
-            'GET'
+            'GET',{},
+            {
+                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+            }
         );
     }
 }
