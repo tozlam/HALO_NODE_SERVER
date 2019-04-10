@@ -21,7 +21,8 @@ class UserController extends Controller {
         if (resp.errorCode == 0) {
             ctx.session.token = resp.data['access_token'];
             ctx.session.expireTime = new Date().getTime() + 59 * 60 * 1000;
-            resp = await service.users.userData();
+            // resp = await service.users.userData();
+            resp.token = ctx.session.token;
         }
 
         ctx.body = {
@@ -37,6 +38,7 @@ class UserController extends Controller {
             ctx.session.token = resp.data['access_token'];
             ctx.session.expireTime = new Date().getTime() + 59 * 60 * 1000;
             resp = await service.users.userData();
+            resp.token = ctx.session.token;
         }
 
     ctx.body = {

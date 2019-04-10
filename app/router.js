@@ -11,5 +11,6 @@ module.exports = app => {
   require('./router/order')(app)
   require('./router/carts')(app)
   require('./router/ms')(app)
+  require('./router/forum')(app)
   app.all('/ueditor', ueditor());
 };

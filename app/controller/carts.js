@@ -1,9 +1,7 @@
-'use strict';
-
-const Service = require('egg').Service;
+const Controller = require('egg').Controller;
 const _ = require('lodash');
 
-class CartsService extends Service {
+class CartController extends Controller {
     async getCart(){
         const {ctx, service} = this;
         const resp = await service.carts.getCart();
@@ -62,4 +60,4 @@ class CartsService extends Service {
     }
 
 }
-module.exports = CartsService;
+module.exports = CartController;
