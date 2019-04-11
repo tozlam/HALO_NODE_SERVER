@@ -33,7 +33,8 @@ class ProductController extends Controller {
     async searchProduct(){
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
-        const resp = await service.items.searchProduct(inputParams.name);
+        let name = encodeURI(inputParams.name);
+        const resp = await service.items.searchProduct(name);
         ctx.body = {
             data:resp
         };

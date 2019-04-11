@@ -7,7 +7,7 @@ class UsersService extends Service {
     async userData(){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/users/' ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/users/' ,
             'GET',{},{
                 headers: {'access_token': token}
             }
@@ -17,7 +17,7 @@ class UsersService extends Service {
     async updatePwd(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/users/pwd' ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/users/pwd' ,
             'PATCH',
             params,{
                 headers: {'access_token': token, 'Content-Type': 'application/x-www-form-urlencoded'}
@@ -28,7 +28,7 @@ class UsersService extends Service {
     async verifyPwd(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/users/verifyPwd/' + params ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/users/verifyPwd/' + params ,
             'GET',{},
             {
                 headers: {'access_token': token}
@@ -39,7 +39,7 @@ class UsersService extends Service {
     async updateEmail(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/users/email' ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/users/email' ,
             'PATCH',
             params,{
                 headers: {'access_token': token, 'Content-Type': 'application/x-www-form-urlencoded'}
@@ -50,7 +50,7 @@ class UsersService extends Service {
     async updatePhone(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/users/phone' ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/users/phone' ,
             'PATCH',
             params,{
                 headers: {'access_token': token, 'Content-Type': 'application/x-www-form-urlencoded'}
@@ -61,7 +61,7 @@ class UsersService extends Service {
     async requestEmailVerify(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/users/requestEmailVerify?email=' + params ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/users/requestEmailVerify?email=' + params ,
             'GET',{},
             {
                 headers: {'access_token': token}
@@ -72,7 +72,7 @@ class UsersService extends Service {
     async coinData(){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/users/coin' ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/users/coin' ,
             'GET',{},
             {
                 headers: {'access_token': token}
@@ -83,7 +83,7 @@ class UsersService extends Service {
     async chargeCoin(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/users/coin' ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/users/coin' ,
             'PATCH',
             params,{
                 headers: {'access_token': token, 'Content-Type': 'application/x-www-form-urlencoded'}
@@ -94,10 +94,10 @@ class UsersService extends Service {
     async saveAvatar(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/users/avatar' ,
-            'POST',
-            params,{
-                headers: {'access_token': token,'Content-Type': 'multipart/form-data'}
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/users/avatar?url=' + params ,
+            'PATCH', {},
+            {
+                headers: {'access_token': token}
             }
         );
     }
@@ -105,7 +105,7 @@ class UsersService extends Service {
     async getAddress(){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/addresses/' ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/addresses/' ,
             'GET',{},
             {
                 headers: {'access_token': token}
@@ -116,7 +116,7 @@ class UsersService extends Service {
     async delAddress(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/addresses/' + params,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/addresses/' + params,
             'DELETE',{},
             {
                 headers: {'access_token': token}
@@ -127,7 +127,7 @@ class UsersService extends Service {
     async updateAddress(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/addresses/',
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/addresses/',
             'PUT',
             params,
             {
@@ -139,7 +139,19 @@ class UsersService extends Service {
     async addAddress(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/addresses/',
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/addresses/',
+            'POST',
+            params,
+            {
+                headers: {'access_token': token}
+            }
+        );
+    }
+
+    async addAddress(params){
+        const { ctx, app } = this;
+        let token = ctx.session.token;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/addresses/',
             'POST',
             params,
             {

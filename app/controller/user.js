@@ -21,7 +21,7 @@ class UserController extends Controller {
         if (resp.errorCode == 0) {
             ctx.session.token = resp.data['access_token'];
             ctx.session.expireTime = new Date().getTime() + 59 * 60 * 1000;
-            // resp = await service.users.userData();
+            resp = await service.users.userData();
             resp.token = ctx.session.token;
         }
 
@@ -185,13 +185,19 @@ class UserController extends Controller {
         const {ctx, service,app} = this;
         const inputParams = ctx.request.body;
         let token = ctx.session.token;
+        let resp;
         var imgData = inputParams.img;
         var base64Data = imgData.replace(/^data:image\/\w+;base64,/, "");
-
         const dataParam = {
             image: base64Data
         }
-        const resp = await service.common.imageSave(dataParam);
+        const saveResp = await service.common.imageSave(dataParam);
+        if(saveResp.errorCode == 0){
+            let param = encodeURI(saveResp.data.imgUrl);
+            resp = await service.users.saveAvatar(param);
+        }else{
+            resp = saveResp;
+        }
 
         ctx.body = {
             data:resp

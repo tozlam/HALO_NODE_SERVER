@@ -8,7 +8,7 @@ class OrdersService extends Service {
     async myOrder(){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/orders/products',
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/orders/products',
             'GET',{},
             {
                 headers: {'access_token': token}
@@ -19,7 +19,7 @@ class OrdersService extends Service {
     async orderDetail(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/orders/' + params + '/products',
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/orders/' + params + '/products',
             'GET',{},
             {
                 headers: {'access_token': token}
@@ -30,7 +30,7 @@ class OrdersService extends Service {
     async newOrder(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/orders/',
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/orders/',
         'POST',
         params,
         {
@@ -42,7 +42,7 @@ class OrdersService extends Service {
     async settlement(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/orders/settlement',
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/orders/settlement',
         'POST',
         params,
         {
@@ -54,7 +54,7 @@ class OrdersService extends Service {
     async buyNow(params){
         const { ctx, app } = this;
         let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/orders/now',
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/orders/now',
         'POST',
             params,
         {

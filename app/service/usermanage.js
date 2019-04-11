@@ -6,37 +6,52 @@ const _ = require('lodash');
 class UsermanageService extends Service {
     async getUserPage(pageSize){
         const {ctx, app} = this;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/usermanage/page?pageCount=' + pageSize,
+        let token = ctx.session.token;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/backstage/usermanage/page?pageCount=' + pageSize,
             'GET',{},
             {
-                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+                headers: {'access_token': token}
             }
         );
     }
 
     async delUser(id){
         const {ctx, app} = this;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/usermanage/' + id,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/backstage/usermanage/' + id,
             'DELETE'
         );
     }
 
     async getUser(pageIndex,pageSize){
         const {ctx, app} = this;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/usermanage/users?pageIndex=' + pageIndex + '&pageCount=' + pageSize,
+        let token = ctx.session.token;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/user?limit=' + pageIndex + '&count=' + pageSize,
             'GET',{},
             {
-                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+                headers: {'access_token': token}
             }
         );
     }
 
-    async searchUser(params){
+    async searchUser(params,limit,count){
         const {ctx, app} = this;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/backstage/usermanage/' + params,
+        let token = ctx.session.token;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/search/' + params + '?/limit=' + limit + '&count=' + count,
             'GET',{},
             {
-                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+                headers: {'access_token': token}
+            }
+        );
+    }
+
+    async settleUserStatus(params){
+        const {ctx, app} = this;
+        let token = ctx.session.token;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/user/status',
+            'PUT',
+            params,
+            {
+                headers: {'access_token': token}
             }
         );
     }

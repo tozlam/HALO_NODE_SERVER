@@ -15,7 +15,7 @@ class CartsService extends Service {
                 headers: {'access_token': token}
             };
         }
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/carts/' ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/carts/' ,
             'GET',{},
             header
         );
@@ -34,7 +34,7 @@ class CartsService extends Service {
             };
             needHeader = false;
         }
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/carts/' ,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/carts/' ,
             'POST',
             params,
             header,
@@ -60,7 +60,7 @@ class CartsService extends Service {
                 headers: {'access_token': token, 'Content-Type': 'application/x-www-form-urlencoded'}
             };
         }
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/carts/' + proId,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/carts/' + proId,
             'PATCH',
             params,
             header,
@@ -81,7 +81,7 @@ class CartsService extends Service {
             };
             needHeader = false;
         }
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_BE + '/halo/carts/' + proId,
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/carts/' + proId,
             'DELETE', {},
             header,
             needHeader
