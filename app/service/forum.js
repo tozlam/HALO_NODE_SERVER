@@ -88,5 +88,23 @@ class ForumService extends Service {
             }
         );
     }
+
+    async searchTopic(param,limit,count){
+        const { ctx, app } = this;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/forum/search/' + param + '?limit=' + limit + '&count=' + count,
+            'GET',{}
+        );
+    }
+
+    async delBack(id){
+        const { ctx, app } = this;
+        let token = ctx.session.token;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/forum/back/'+id,
+            'DELETE',{},
+            {
+                headers: {'access_token': token}
+            }
+        );
+    }
 }
 module.exports = ForumService;

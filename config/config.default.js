@@ -32,6 +32,13 @@ module.exports = appInfo => {
     'HALO_API': 'http://123.207.121.122:8868/api'
   };
 
+  // 暂时去掉csrf限制
+  config.security = {
+    csrf: {
+      enable: false
+    }
+  };
+
   config.bodyParser = {
     jsonLimit: '5mb',
     formLimit: '6mb',

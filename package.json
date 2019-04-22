@@ -10,8 +10,8 @@
     "egg": "^2.15.1",
     "egg-scripts": "^2.11.0",
     "egg-socket.io": "^4.1.5",
-    "egg-ueditor": "https://github.com/tozlam/egg-ueditor/tarball/master",
     "lodash": "^4.17.11",
+    "node-rsa": "^1.0.5",
     "ueditor": "^1.2.3"
   },
   "devDependencies": {
@@ -20,6 +20,7 @@
     "egg-bin": "^4.11.0",
     "egg-ci": "^1.11.0",
     "egg-mock": "^3.21.0",
+    "egg-ueditor": "git+https://github.com/tozlam/egg-ueditor.git",
     "eslint": "^5.13.0",
     "eslint-config-egg": "^7.1.0",
     "webstorm-disable-index": "^1.2.0"

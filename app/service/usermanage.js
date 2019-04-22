@@ -6,7 +6,7 @@ const _ = require('lodash');
 class UsermanageService extends Service {
     async getUserPage(pageSize){
         const {ctx, app} = this;
-        let token = ctx.session.token;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/backstage/usermanage/page?pageCount=' + pageSize,
             'GET',{},
             {
@@ -24,7 +24,7 @@ class UsermanageService extends Service {
 
     async getUser(pageIndex,pageSize){
         const {ctx, app} = this;
-        let token = ctx.session.token;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/user?limit=' + pageIndex + '&count=' + pageSize,
             'GET',{},
             {
@@ -35,8 +35,8 @@ class UsermanageService extends Service {
 
     async searchUser(params,limit,count){
         const {ctx, app} = this;
-        let token = ctx.session.token;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/search/' + params + '?/limit=' + limit + '&count=' + count,
+        let token = ctx.session.adminToken;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/user/search/' + encodeURI(params) + '?limit=' + limit + '&count=' + count,
             'GET',{},
             {
                 headers: {'access_token': token}
@@ -46,7 +46,7 @@ class UsermanageService extends Service {
 
     async settleUserStatus(params){
         const {ctx, app} = this;
-        let token = ctx.session.token;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/user/status',
             'PUT',
             params,

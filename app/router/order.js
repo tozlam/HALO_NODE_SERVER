@@ -18,4 +18,5 @@ module.exports = app => {
     router.post('/api/order/newOrder',authLogin,order.newOrder);
     router.post('/api/order/settlement',authLogin,order.settlement);
     router.post('/api/order/buyNow',authLogin,order.buyNow);
+    router.get('/api/order/indexOrderNum',authLogin,order.indexOrderNum);
 };

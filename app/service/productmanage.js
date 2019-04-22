@@ -4,59 +4,69 @@ const Service = require('egg').Service;
 const _ = require('lodash');
 
 class ProductmanageService extends Service {
-    async searchProduct(params){
+    async searchProduct(params,limit,count){
         const {ctx, app} = this;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/backstage/productmanage/typeAndName?type=' +
-        params.type + '&name=' + params.name + '&pageIndex=' + params.pageIndex + '&pageCount=' + params.pageSize,
+        let token = ctx.session.adminToken;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/product/search/' + params + '?limit=' + limit + '&count=' + count,
             'GET',{},
             {
-                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+                headers: {'access_token': token}
             }
         );
     }
 
     async getProductPage(pageSize){
         const {ctx, app} = this;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/backstage/productmanage/page?pageCount=' + pageSize,
             'GET',{},
             {
-                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+                headers: {'access_token': token}
             }
         );
     }
 
     async delProduct(params){
         const {ctx, app} = this;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/backstage/productmanage/' + params,
-            'DELETE'
+        let token = ctx.session.adminToken;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/product/' + params,
+            'DELETE',{},
+            {
+                headers: {'access_token': token}
+            }
         );
     }
 
     async updateProduct(params){
         const {ctx, app} = this;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/backstage/productmanage/productInfoByPId',
-            'PATCH',
-            params,
+        let token = ctx.session.adminToken;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/product?id=' + params.id + '&name=' + encodeURI(params.name) + '&num=' + params.num + '&price=' + params.price,
+            'PUT', {},
             {
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                headers: {'access_token': token}
             }
         );
     }
 
     async getProduct(pageIndex,pageSize){
         const {ctx, app} = this;
-        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/backstage/productmanage/?pageIndex=' + pageIndex + '&pageCount=' + pageSize,
+        let token = ctx.session.adminToken;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/product?limit=' + pageIndex + '&count=' + pageSize,
             'GET',{},
             {
-                headers:{Cookie: 'JSESSIONID=07A14670F87C150209A0BBD3B5AF91AD'}
+                headers: {'access_token': token}
             }
         );
     }
 
     async multiDelProduct(params){
         const {ctx, app} = this;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/backstage/productmanage/' + params +'/multi',
-            'DELETE'
+            'DELETE',{},
+            {
+                headers: {'access_token': token}
+            }
         );
     }
 }

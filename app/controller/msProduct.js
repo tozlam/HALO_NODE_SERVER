@@ -5,20 +5,13 @@ class MsProductController extends Controller {
    async searchProduct(){
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
-        const resp = await service.productmanage.searchProduct(inputParams);
+       let key = encodeURI(inputParams.key);
+        const resp = await service.productmanage.searchProduct(key,inputParams.pageNum,inputParams.pageSize);
         ctx.body = {
             data:resp
         };
     }
 
-    async getProductPage(){
-        const {ctx, service} = this;
-        const inputParams = ctx.request.body;
-        const resp = await service.productmanage.getProductPage(inputParams);
-        ctx.body = {
-            data:resp
-        };
-    }
 
     async delProduct(){
         const {ctx, service} = this;

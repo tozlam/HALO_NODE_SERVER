@@ -6,7 +6,7 @@ const _ = require('lodash');
 class TopicManageService extends Service {
     async getTopicList(limit,count){
         const { ctx, app } = this;
-        let token = ctx.session.token;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/topic?limit=' + limit + '&count=' + count,
             'GET',{},
             {
@@ -17,7 +17,7 @@ class TopicManageService extends Service {
 
     async getTopicDetail(id){
         const { ctx, app } = this;
-        let token = ctx.session.token;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/topic/' + id,
             'GET',{},
             {
@@ -28,7 +28,7 @@ class TopicManageService extends Service {
 
     async getTopicBack(id,limit,count){
         const { ctx, app } = this;
-        let token = ctx.session.token;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/back/' + id + '?limit=' + limit + '&count=' + count,
             'GET',{},
             {
@@ -39,7 +39,7 @@ class TopicManageService extends Service {
 
     async searchTopic(keyword,limit,count){
         const { ctx, app } = this;
-        let token = ctx.session.token;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/topic/search/' + keyword + '?limit=' + limit + '&count=' + count,
             'GET',{},
             {
@@ -50,7 +50,7 @@ class TopicManageService extends Service {
 
     async delTopic(ids){
         const { ctx, app } = this;
-        let token = ctx.session.token;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/topic/' + ids ,
             'DELETE',{},
             {
@@ -61,9 +61,31 @@ class TopicManageService extends Service {
 
     async delBack(ids){
         const { ctx, app } = this;
-        let token = ctx.session.token;
+        let token = ctx.session.adminToken;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/back/' + ids ,
             'DELETE',{},
+            {
+                headers: {'access_token': token}
+            }
+        );
+    }
+
+    async getType(ids){
+        const { ctx, app } = this;
+        let token = ctx.session.adminToken;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/topic/type' ,
+            'GET',{},
+            {
+                headers: {'access_token': token}
+            }
+        );
+    }
+
+    async searchByType(id,limit,count){
+        const { ctx, app } = this;
+        let token = ctx.session.adminToken;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/admin/topic/type/' + id +'?limit=' + limit +'&count=' + count,
+            'GET',{},
             {
                 headers: {'access_token': token}
             }

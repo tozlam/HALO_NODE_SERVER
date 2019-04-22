@@ -16,8 +16,8 @@ class MsLoginController extends Controller {
         const inputParams = ctx.request.body;
         const resp = await service.admins.loginByPwd(inputParams);
         if (resp.code == 0) {
-            ctx.session.token = resp.data;
-            ctx.session.expireTime = new Date().getTime() + 59 * 60 * 1000;
+            ctx.session.adminToken = resp.data;
+            ctx.session.adminExpireTime = new Date().getTime() + 59 * 60 * 1000;
         }
         ctx.body = {
             data:resp
@@ -33,6 +33,7 @@ class MsLoginController extends Controller {
             }
         }
     }
+
 }
 
 module.exports = MsLoginController;

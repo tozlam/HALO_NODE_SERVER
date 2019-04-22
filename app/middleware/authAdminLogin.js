@@ -6,8 +6,8 @@ module.exports = () => {
      * 校验是否登录
      */
     return async function (ctx, next) {
-        const isLogin = ctx.session.token;
-        const expireTime = ctx.session.expireTime;
+        const isLogin = ctx.session.adminToken;
+        const expireTime = ctx.session.adminExpireTime;
         const nowTime = new Date().getTime();
         if (!isLogin) {
             ctx.status = 200;

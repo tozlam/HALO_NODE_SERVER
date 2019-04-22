@@ -104,6 +104,8 @@ class ForumController extends Controller {
         if(resp.code == 0){
             _.each(resp.data.backs,item => {
                 let content = item.content;
+                content = content.replace(/<img(([\s\S])*?)alt(([\s\S])*?)>/g, "[图片]");
+                content = content.replace(/<img(([\s\S])*?)>/g, "[表情]");
                 content = content.replace(/<blockquote(([\s\S])*?)<\/blockquote>/g, "");
                 content = content.replace(/(\n)/g, "");
                 content = content.replace(/(\t)/g, "");
@@ -111,8 +113,28 @@ class ForumController extends Controller {
                 content = content.replace(/<\/?[^>]*>/g, "");
                 content = content.replace(/\s*/g, "");
                 item.content = content;
-            })
+            });
+            resp.data.backs.reverse();
         }
+        ctx.body = {
+            data:resp
+        };
+    }
+
+    async searchTopic(){
+        const {ctx, service} = this;
+        const inputParams = ctx.request.body;
+        let param = encodeURI(inputParams.key);
+        const resp = await service.forum.searchTopic(param,inputParams.pageNum,inputParams.pageSize);
+        ctx.body = {
+            data:resp
+        };
+    }
+
+    async delBack(){
+        const {ctx, service} = this;
+        const inputParams = ctx.request.body;
+        const resp = await service.forum.delBack(inputParams.id);
         ctx.body = {
             data:resp
         };

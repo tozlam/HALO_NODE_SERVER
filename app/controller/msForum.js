@@ -35,6 +35,8 @@ class MsForumController extends Controller {
         let resp = {};
         const respDetail = await service.topicmanage.getTopicDetail(inputParams.id);
         if(respDetail.code == 0){
+            respDetail.data.gmtCreate = respDetail.data.gmtCreate.slice(0,19);
+            respDetail.data.gmtCreate = respDetail.data.gmtCreate.replace('T',' ');
             const respBack = await service.topicmanage.getTopicBack(inputParams.id,inputParams.pageNum,inputParams.pageSize);
             if(respBack.code == 0){
                 resp = {
@@ -87,6 +89,24 @@ class MsForumController extends Controller {
         const inputParams = ctx.request.body;
         let ids = encodeURI(inputParams.ids);
         const resp = await service.topicmanage.delBack(ids);
+        ctx.body = {
+            data:resp
+        };
+    }
+
+    async getType(){
+        const {ctx, service} = this;
+        const inputParams = ctx.request.body;
+        const resp = await service.topicmanage.getType();
+        ctx.body = {
+            data:resp
+        };
+    }
+
+    async searchByType(){
+        const {ctx, service} = this;
+        const inputParams = ctx.request.body;
+        const resp = await service.topicmanage.searchByType(inputParams.id,inputParams.pageNum,inputParams.pageSize);
         ctx.body = {
             data:resp
         };

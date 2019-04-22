@@ -2,8 +2,12 @@ const Controller = require('egg').Controller;
 const _ = require('lodash');
 const fs = require('fs');
 const FormStream = require('formstream');
+const NodeRSA = require('node-rsa');
+const key = new NodeRSA({b: 1024});
 
 class UserController extends Controller {
+
+
     async loginVerifyPhone(){
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
@@ -17,6 +21,7 @@ class UserController extends Controller {
     async loginByPwd(){
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
+        inputParams.pwd = key.decrypt(inputParams.pwd, 'utf8');
         let resp = await service.auths.loginByPwd(inputParams);
         if (resp.errorCode == 0) {
             ctx.session.token = resp.data['access_token'];
@@ -249,6 +254,20 @@ class UserController extends Controller {
         ctx.body = {
             data:{
                 errorCode:0
+            }
+        }
+    }
+
+    async publicKey(){
+        const {ctx, service} = this;
+        key.setOptions({encryptionScheme: 'pkcs1'}); // 必须加上，加密方式问题
+        const publicDer = key.exportKey('public');
+        const privateDer = key.exportKey('private');
+        ctx.session.privateDer = privateDer;
+        ctx.body = {
+            data:{
+                errorCode:0,
+                data:publicDer
             }
         }
     }
