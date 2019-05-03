@@ -12,7 +12,7 @@ class CartsService extends Service {
             };
         if(token){
             header = {
-                headers: {'access_token': token}
+                headers: {'access_token': token,'Cookie':ctx.cookies.get('cart', { signed: false })}
             };
         }
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/carts/' ,
@@ -30,7 +30,7 @@ class CartsService extends Service {
         let needHeader = true;
         if(token){
             header = {
-                headers: {'access_token': token}
+                headers: {'access_token': token,'Cookie':ctx.cookies.get('cart', { signed: false })}
             };
             needHeader = false;
         }
@@ -51,7 +51,7 @@ class CartsService extends Service {
         let needHeader = true;
         if(token){
             header = {
-                headers: {'access_token': token,'Content-Type': 'application/x-www-form-urlencoded'}
+                headers: {'access_token': token,'Content-Type': 'application/x-www-form-urlencoded','Cookie':ctx.cookies.get('cart', { signed: false })}
             };
             needHeader = false;
         }
@@ -77,7 +77,7 @@ class CartsService extends Service {
         let needHeader = true;
         if(token){
             header = {
-                headers: {'access_token': token}
+                headers: {'access_token': token,'Cookie':ctx.cookies.get('cart', { signed: false })}
             };
             needHeader = false;
         }

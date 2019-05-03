@@ -9,26 +9,29 @@ class OrderService extends Service {
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
         let resp = await service.orders.myOrder();
-        if(inputParams.status !== 'all'){
-            let temp = [];
-            _.each(resp.data.orderDetailList,item => {
-                if(inputParams.status === 'other'){
-                    if(item.status == '1' || item.status == '4' || item.status == '5'){
-                        item.statusName = constants.ORDER_TYPE[item.status];
-                        temp.push(item);
+        if(resp.errorCode == 0 && resp.data && resp.data.orderDetailList){
+            if(inputParams.status !== 'all'){
+                let temp = [];
+                _.each(resp.data.orderDetailList,item => {
+                    if(inputParams.status === 'other'){
+                        if(item.status == '1' || item.status == '4' || item.status == '5'){
+                            item.statusName = constants.ORDER_TYPE[item.status];
+                            temp.push(item);
+                        }
+                    }else{
+                        if(item.status == inputParams.status){
+                            item.statusName = constants.ORDER_TYPE[item.status];
+                            temp.push(item);
+                        }
                     }
-                }else{
-                    if(item.status == inputParams.status){
-                        item.statusName = constants.ORDER_TYPE[item.status];
-                        temp.push(item);
-                    }
-                }
-            });
-            resp.data.orderDetailList = temp;
-        }else{
-            _.each(resp.data.orderDetailList,item => {
-                item.statusName = constants.ORDER_TYPE[item.status];
-            });
+                });
+                resp.data.orderDetailList = temp;
+            }else{
+                _.each(resp.data.orderDetailList,item => {
+                    item.statusName = constants.ORDER_TYPE[item.status];
+                });
+            }
+           resp.data.orderDetailList = _.orderBy(resp.data.orderDetailList,'gmtCreate','desc');
         }
         ctx.body = {
             data:resp

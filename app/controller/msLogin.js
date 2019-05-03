@@ -26,7 +26,7 @@ class MsLoginController extends Controller {
 
     async logout(){
         const {ctx, service} = this;
-        ctx.session.token = null;
+        ctx.session.adminToken = null;
         ctx.body = {
             data:{
                 code:0

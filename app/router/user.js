@@ -38,4 +38,5 @@ module.exports = app => {
     router.post('/api/user/addAddress',authLogin,user.addAddress);
     router.get('/api/user/logout',user.logout);
     router.get('/api/user/publicKey',user.publicKey);
+    router.post('/api/user/authsVerifyCode', user.authsVerifyCode);
 };

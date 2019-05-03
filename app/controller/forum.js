@@ -2,6 +2,7 @@ const Controller = require('egg').Controller;
 const path = require('path');
 const _ = require('lodash');
 const fs = require('fs');
+const xss = require("xss");
 
 class ForumController extends Controller {
     async getToken(){
@@ -68,7 +69,8 @@ class ForumController extends Controller {
     }
     async newTopic(){
         const {ctx, service} = this;
-        const inputParams = ctx.request.body;
+        let inputParams = ctx.request.body;
+        inputParams.content = xss(inputParams.content);
         const resp = await service.forum.newTopic(inputParams);
         ctx.body = {
             data:resp
@@ -76,7 +78,8 @@ class ForumController extends Controller {
     }
     async newBack(){
         const {ctx, service} = this;
-        const inputParams = ctx.request.body;
+        let inputParams = ctx.request.body;
+        inputParams.content = xss(inputParams.content);
         const resp = await service.forum.newBack(inputParams);
         ctx.body = {
             data:resp

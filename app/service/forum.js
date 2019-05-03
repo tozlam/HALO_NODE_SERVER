@@ -2,6 +2,7 @@
 
 const Service = require('egg').Service;
 const _ = require('lodash');
+
 class ForumService extends Service {
     async getAllTopic(limit,count){
         const { ctx, app } = this;

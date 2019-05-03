@@ -7,6 +7,16 @@ class ProductController extends Controller {
         const inputParams = ctx.request.body;
 
         const resp = await service.items.productDetail(inputParams.proId);
+        if(resp.errorCode == 0){
+            resp.data.itemDetail.detailImg = resp.data.itemDetail.detailImg.replace(/data-original/g,"src");
+            let imgurl = new Array();
+            let common = JSON.parse(resp.data.itemDetail.specificationJson);
+            _.each(common.imgUrl, (item, i) => {
+                imgurl[i] = new Array(i);
+                imgurl[i] = item.split(',');
+            });
+            resp.data.imgurl = imgurl;
+        }
         ctx.body = {
             data:resp
         };

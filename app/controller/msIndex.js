@@ -6,11 +6,12 @@ class MsIndexController extends Controller {
     async orderChartData() {
         const {ctx, service} = this;
         let resp;
+        const unpaidResp = await service.ordermanage.searchOrderByStatus(0,1,1);
         const paidResp = await service.ordermanage.searchOrderByStatus(1,1,1);
         const unsendResp = await service.ordermanage.searchOrderByStatus(2,1,1);
         const sentResp = await service.ordermanage.searchOrderByStatus(3,1,1);
-        if(paidResp.code == 0 && unsendResp.code == 0 && sentResp.code == 0){
-            let temp = [0,paidResp.data.count,unsendResp.data.count,sentResp.data.count];
+        if(unpaidResp.code == 0 && paidResp.code == 0 && unsendResp.code == 0 && sentResp.code == 0){
+            let temp = [unpaidResp.data.count,paidResp.data.count,unsendResp.data.count,sentResp.data.count];
             ctx.body = {
                 data:{
                     code:0,

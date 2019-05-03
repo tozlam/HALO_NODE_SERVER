@@ -81,6 +81,16 @@ class UserController extends Controller {
         };
     }
 
+    async authsVerifyCode(){
+        const {ctx, service} = this;
+        const inputParams = ctx.request.body;
+
+        const resp = await service.auths.verifyCode(inputParams);
+        ctx.body = {
+            data:resp
+        };
+    }
+
     async regVerifyCode(){
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
@@ -91,11 +101,18 @@ class UserController extends Controller {
         };
     }
 
+
     async registerByPhone(){
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
-
-        const resp = await service.registers.registerByPhone(inputParams);
+        inputParams.pwd = key.decrypt(inputParams.pwd, 'utf8');
+        let resp = await service.registers.registerByPhone(inputParams);
+        if (resp.errorCode == 0) {
+            ctx.session.token = resp.data['access_token'];
+            ctx.session.expireTime = new Date().getTime() + 59 * 60 * 1000;
+            resp = await service.users.userData();
+            resp.token = ctx.session.token;
+        }
         ctx.body = {
             data:resp
         };
@@ -115,6 +132,7 @@ class UserController extends Controller {
         const {ctx, service} = this;
         const inputParams = ctx.request.body;
         let params = inputParams.data;
+        params.newPwd = key.decrypt(params.newPwd, 'utf8');
 
         const resp = await service.users.updatePwd(params);
         ctx.body = {

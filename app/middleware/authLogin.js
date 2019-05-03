@@ -13,7 +13,7 @@ module.exports = () => {
             ctx.status = 200;
             ctx.body = {
                 data: {
-                    erroeCode: 403,
+                    errorCode: 403,
                     msg: '请登录'
                 }
             };
@@ -22,7 +22,7 @@ module.exports = () => {
             ctx.status = 200;
             ctx.body = {
                 data: {
-                    erroeCode: 403,
+                    errorCode: 403,
                     msg: '登录超时，请重新登录'
                 }
             };

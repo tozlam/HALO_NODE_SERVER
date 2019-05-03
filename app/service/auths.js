@@ -17,7 +17,7 @@ class AuthsService extends Service {
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/auths/loginByPwd',
             'POST',
             params,{
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                headers: {'Content-Type': 'application/x-www-form-urlencoded','Cookie':ctx.cookies.get('cart', { signed: false })}
             }
         );
     }
@@ -27,7 +27,7 @@ class AuthsService extends Service {
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/auths/loginByCode',
             'POST',
             params,{
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                headers: {'Content-Type': 'application/x-www-form-urlencoded','Cookie':ctx.cookies.get('cart', { signed: false })}
             }
         );
     }
@@ -36,6 +36,16 @@ class AuthsService extends Service {
         const { ctx, app } = this;
         return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/auths/requestSmsCode/' + params,
             'GET'
+        );
+    }
+
+    async verifyCode(params){
+        const { ctx, app } = this;
+        return await ctx.helper.tdRequest(ctx, app.config.serverConf.HALO_API + '/halo/auths/verifyCode',
+            'POST',
+            params,{
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }
         );
     }
 
